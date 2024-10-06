@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع تعلم اللغات</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            min-height: 100vh; 
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: #35424a;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+            position: relative;
+        }
+        .login-button {
+            background-color: #ff9800;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+            margin: 10px;
+        }
+        .user-initial {
+            display: none;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: #ff9800;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .language-list {
+            display: none; 
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        .language-list h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .language-list ul {
+            list-style: none;
+            padding: 0;
+            font-size: 18px;
+        }
+        .language-list ul li {
+            margin: 10px 0;
+            cursor: pointer;
+            color: #007bff;
+            text-decoration: underline;
+        }
+        .language-list ul li:hover {
+            color: #0056b3;
+        }
+        .boxes-container {
+            display: none;
+            justify-content: space-around;
+            margin: 20px;
+        }
+        .box {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px;
+            background: #f9f9f9;
+            text-align: center;
+            flex: 1;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #35424a;
+            color: #ffffff;
+            font-size: 12px;
+            font-style: italic;
+            color: #d3d3d3;
+            position: relative;
+            width: 100%;
+            bottom: 0;
+        }
+        main {
+            flex: 1;
+        }
+        .lesson-page {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            text-align: center;
+        }
+        .lesson-page h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .lesson-page ul {
+            list-style-type: none;
+            padding: 0;
+            font-size: 18px;
+        }
+        .lesson-page ul li {
+            margin: 10px 0;
+        }
+        .back-button {
+            background-color: #ff9800;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>مرحبًا بكم في موقع تعلم اللغات</h1>
+        <button class="login-button" id="loginBtn">تسجيل الدخول</button>
+        <div class="user-initial" id="userInitial"></div>
+    </header>
+
+    <main>
+        <!-- قائمة اللغات -->
+        <div class="language-list" id="languageList">
+            <h2>اختر لغة للتعلم</h2>
+            <ul>
+                <li data-language="العربية">العربية</li>
+                <li data-language="الإنجليزية">الإنجليزية</li>
+                <li data-language="الفرنسية">الفرنسية</li>
+                <li data-language="الإسبانية">الإسبانية</li>
+                <li data-language="الألمانية">الألمانية</li>
+                <li data-language="الإيطالية">الإيطالية</li>
+                <!-- المزيد من اللغات -->
+            </ul>
+        </div>
+
+        <!-- المربعات -->
+        <div class="boxes-container" id="boxesContainer">
+            <div class="box">
+                <h3>الدردشة</h3>
+                <p>تحدث مع معلمين وطلاب آخرين.</p>
+            </div>
+            <div class="box">
+                <h3>الفيديوهات التعليمية</h3>
+                <p>شاهد فيديوهات لتعلم اللغات بشكل أفضل.</p>
+            </div>
+            <div class="box">
+                <h3>التعليقات</h3>
+                <p>شارك أفكارك وملاحظاتك حول الموقع.</p>
+            </div>
+        </div>
+
+        <!-- صفحة الدروس -->
+        <div class="lesson-page" id="lessonPage">
+            <h2 id="lessonTitle">دروس اللغة</h2>
+            <ul id="lessonContent">
+                <!-- دروس اللغة سيتم إدراجها هنا -->
+            </ul>
+            <button class="back-button" id="backBtn">عودة إلى القائمة</button>
+            <div id="lessonDetailText"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2024 جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        var loginBtn = document.getElementById("loginBtn");
+        var userInitial = document.getElementById("userInitial");
+        var languageList = document.getElementById("languageList");
+        var boxesContainer = document.getElementById("boxesContainer");
+        var lessonPage = document.getElementById("lessonPage");
+        var lessonTitle = document.getElementById("lessonTitle");
+        var lessonContent = document.getElementById("lessonContent");
+        var lessonDetailText = document.getElementById("lessonDetailText");
+        var backBtn = document.getElementById("backBtn");
+
+        // عند الضغط على زر تسجيل الدخول
+        loginBtn.onclick = function() {
+            var email = prompt("أدخل بريدك الإلكتروني:");
+            if (email) {
+                var initial = email.charAt(0).toUpperCase();
+                userInitial.textContent = initial;
+                userInitial.style.display = "flex";
+                loginBtn.style.display = "none";
+
+                // عرض قائمة اللغات والمربعات بعد تسجيل الدخول
+                languageList.style.display = "block";
+                boxesContainer.style.display = "flex";
+            }
+        }
+
+        // التعامل مع النقر على أي لغة
+        var languages = document.querySelectorAll('.language-list ul li');
+        languages.forEach(function(language) {
+            language.addEventListener('click', function() {
+                var selectedLanguage = language.getAttribute('data-language');
+                
+                // تغيير عنوان صفحة الدروس
+                lessonTitle.textContent = "دروس اللغة " + selectedLanguage;
+
+                // إضافة الدروس إلى القائمة
+                lessonContent.innerHTML = `
+                    <li data-lesson="المفردات الأساسية">المفردات الأساسية</li>
+                    <li data-lesson="قواعد اللغة">قواعد اللغة</li>
+                `;
+
+                // إخفاء قائمة اللغات والمربعات وعرض صفحة الدروس
+                languageList.style.display = "none";
+                boxesContainer.style.display = "none";
+                lessonPage.style.display = "block";
+            });
+        });
+
+        // التعامل مع النقر على أي درس
+        lessonContent.addEventListener('click', function(e) {
+            if (e.target.matches('[data-lesson]')) {
+                var lessonName = e.target.getAttribute('data-lesson');
+                lessonDetailText.innerHTML = ""; // إفراغ النص القديم
+
+                // عرض تفاصيل الدرس بناءً على الاختيار
+                if (lessonName === "المفردات الأساسية") {
+                    lessonDetailText.innerHTML = `
+                        <strong>المفردات الأساسية:</strong><br>
+                        السلام - التحية (مثل: السلام عليكم)<br>
+                        مرحبا - أهلاً وسهلاً<br>
+                        نعم - للإيجاب<br>
+                        لا - للنفي<br>
+                        من فضلك - لتطلب شيئًا بأدب<br>
+                        شكرًا - للتعبير عن الامتنان<br>
+                        عفوًا - للرد على الشكر<br>
+                        كيف حالك؟ - للسؤال عن الحالة<br>
+                        صباح الخير - للتحية في الصباح<br>
+                        مساء الخير - للتحية في المساء<br>
+                        أين؟ - للسؤال عن المكان<br>
+                        متى؟ - للسؤال عن الوقت<br>
+                        ماذا؟ - للسؤال عن الشيء<br>
+                        لماذا؟ - للسؤال عن السبب<br>
+                        نعم، أريد - للتعبير عن الرغبة<br>
+                        لا أفهم - للتعبير عن عدم الفهم<br>
+                        أحب - للتعبير عن المشاعر الإيجابية<br>
+                        سأذهب - للتعبير عن نية الذهاب<br>
+                        تعال - لدعوة شخص للمجيء<br>
+                        اذهب - لإخبار شخص بالذهاب<br>
+                        <strong>عبارات شائعة:</strong><br>
+                        أنا آسف - للاعتذار<br>
+                        هل يمكنك مساعدتي؟ - لطلب المساعدة<br>
+                        أحتاج إلى - للتعبير عن الحاجة<br>
+                        أين الحمام؟ - للسؤال عن المكان<br>
+                        ما اسمك؟ - للسؤال عن الاسم<br>
+                        هذه المفردات تعتبر نقطة انطلاق جيدة لتعلم اللغة العربية. إذا كنت بحاجة إلى مزيد من المفردات أو موضوعات معينة، فلا تتردد في السؤال!<br>
+                    `;
+                } else if (lessonName === "قواعد اللغة") {
+                    lessonDetailText.innerHTML = `
+                        <strong>قواعد اللغة العربية:</strong><br>
+                        1. <strong>الجملة الفعلية</strong>: تبدأ بفعل، مثل: "أكلَ الولدُ التفاحةَ".<br>
+                        2. <strong>الجملة الاسمية</strong>: تبدأ باسم، مثل: "الولدُ نشيطٌ".<br>
+                        3. <strong>المبتدأ والخبر</strong>: المبتدأ هو الاسم الذي يُخبر عنه، والخبر هو ما يُخبر به، مثل: "السماءُ صافيةٌ".<br>
+                        4. <strong>الأفعال</strong>: تنقسم إلى ماضٍ، مضارع، وأمر.<br>
+                        5. <strong>المعرب والمبني</strong>: المعرب هو الذي يتغير شكله حسب موقعه في الجملة، بينما المبني لا يتغير.<br>
+                        6. <strong>أدوات الربط</strong>: مثل: "و"، "أو"، "لكن"، والتي تُستخدم لربط الجمل.<br>
+                        7. <strong>التذكير والتأنيث</strong>: الأسماء في اللغة العربية تُقسم إلى مذكر ومؤنث، ويجب أن يتطابق الفعل مع الاسم من حيث الجنس.<br>
+                        8. <strong>حروف الجر</strong>: تستخدم لربط الكلمات في الجمل، مثل: "في"، "على"، "من"، "إلى".<br>
+                    `;
+                }
+            }
+        });
+
+        // العودة إلى القائمة
+        backBtn.onclick = function() {
+            lessonPage.style.display = "none";
+            languageList.style.display = "block";
+            boxesContainer.style.display = "flex";
+        }
+    </script>
+</body>
+</html>
